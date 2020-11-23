@@ -1,0 +1,37 @@
+CREATE TABLE user (
+    idUser INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    category VARCHAR(10) NOT NULL
+);
+
+CREATE TABLE local (
+    idLocal INT AUTO_INCREMENT PRIMARY KEY,
+    category VARCHAR(20) NOT NULL,
+    address VARCHAR(100) NOT NULL,
+    width INT NOT NULL,
+    height INT NOT NULL,
+    depth INT NOT NULL,
+    price INT NOT NULL,
+    available BOOL DEFAULT 1,
+    idUser INT NOT NULL,
+    idTenant INT,
+    CONSTRAINT fkIdUser FOREIGN KEY (idUser) REFERENCES user(idUser) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fkIdTenant FOREIGN KEY (idTenant) REFERENCES user(idUser) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE rent (
+    idRent INT AUTO_INCREMENT PRIMARY KEY,
+    startDate DATE NOT NULL,
+    endDate DATE NOT NULL,
+    security BOOL NOT NULL,
+    keyExtra BOOL NOT NULL,
+    controlWether BOOL NOT NULL,
+    idLocal INT NOT NULL,
+    CONSTRAINT fkIdLocal FOREIGN KEY (idLocal) REFERENCES local(idLocal) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+DROP TABLE rent;
+DROP TABLE local;
+DROP TABLE user;
